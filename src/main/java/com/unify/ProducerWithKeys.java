@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ProducerWithKeys {
 
-    private static Logger logger = LoggerFactory.getLogger(ProducerWithKeys.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProducerWithKeys.class);
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
@@ -29,7 +29,7 @@ public class ProducerWithKeys {
 
         for (int i=0; i<=10; i++) {
 
-            String topic = "first_topic";
+            String topic = "first-topic";
             String value = "Hello world "+ i;
             String key = "id_"+ i;
 

@@ -6,12 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Properties;
 
 public class ProducerWithCallback {
 
-    private static Logger logger = LoggerFactory.getLogger(ProducerWithCallback.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProducerWithCallback.class);
 
     public static void main(String[] args) {
 
