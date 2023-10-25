@@ -1,10 +1,9 @@
-package com.unify;
+package com.unify.basic;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
-public class ConsumerAssignAndSeek {
+public class Consumer {
     private static final Logger logger = LoggerFactory.getLogger(ProducerWithCallback.class);
 
     public static void main(String[] args) {
@@ -34,35 +33,16 @@ public class ConsumerAssignAndSeek {
         //Create consumer
         try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties)) {
 
-            // Assign and seek are mostly used  to replay data or fetch a specific message
-
-            // Assign
-            TopicPartition  topicPartitionToReadFrom =  new TopicPartition(topic, 0);
-            consumer.assign(Collections.singleton(topicPartitionToReadFrom));
-
-            //Seek
-            long offsetToReadFrom = 15L;
-            consumer.seek(topicPartitionToReadFrom, offsetToReadFrom);
-
-            int numberOfMessagesToRead = 5;
-            int numberOfMessagesRead = 0;
-            boolean keepOnReading = true;
+            // Subscribe consumer to our topic(s)
+            consumer.subscribe(Collections.singleton(topic));
             //poll for new data
-            while (keepOnReading) {
+            while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, String> record : records) {
                     logger.info("Key: {}, value: {}", record.key(), record.value());
                     logger.info("Partition: {}, Offset: {}", record.partition(), record.offset());
-                    numberOfMessagesRead++;
-
-                    if (numberOfMessagesRead >= numberOfMessagesToRead){
-                        keepOnReading =false;
-                        break;
-                    }
                 }
             }
-
-            logger.info("Exiting the application");
         }
 
     }

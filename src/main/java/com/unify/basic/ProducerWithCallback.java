@@ -1,4 +1,4 @@
-package com.unify;
+package com.unify.basic;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
